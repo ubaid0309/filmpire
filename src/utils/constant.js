@@ -40,28 +40,27 @@ export const categories = [
 
 ];
 
-export const generateIcons = [
-  { name: 'action', icon: <GiPunchBlast /> },
-  { name: 'adventure', icon: <SiYourtraveldottv /> },
-  { name: 'animation', icon: <RiBearSmileLine /> },
-  { name: 'comedy', icon: <PiMaskHappyLight /> },
-  { name: 'crime', icon: <GiPistolGun /> },
-  { name: 'documentary', icon: <GoDeviceCameraVideo /> },
-  { name: 'drama', icon: <PiMaskSadLight /> },
-  { name: 'family', icon: <MdFamilyRestroom /> },
-  { name: 'fantasy', icon: <GrMagic /> },
-  { name: 'history', icon: <FaHourglassStart /> },
-  { name: 'horror', icon: <GiBloodySword /> },
-  { name: 'music', icon: <SlMusicTone /> },
-  { name: 'mystery', icon: <GiSpy /> },
-  { name: 'romance', icon: <GiLovers /> },
-  { name: 'science fiction', icon: <TbUfo /> },
-  { name: 'tv movie', icon: <PiTelevisionSimple /> },
-  { name: 'thriller', icon: <GiHalfDead /> },
-  { name: 'war', icon: <GiAxeSword /> },
-  { name: 'western', icon: <GiCactus /> },
-];
-
+export const generateIcons = {
+  action: <GiPunchBlast />,
+  adventure: <SiYourtraveldottv />,
+  animation: <RiBearSmileLine />,
+  comedy: <PiMaskHappyLight />,
+  crime: <GiPistolGun />,
+  documentary: <GoDeviceCameraVideo />,
+  drama: <PiMaskSadLight />,
+  family: <MdFamilyRestroom />,
+  fantasy: <GrMagic />,
+  history: <FaHourglassStart />,
+  horror: <GiBloodySword />,
+  music: <SlMusicTone />,
+  mystery: <GiSpy />,
+  romance: <GiLovers />,
+  'science fiction': <TbUfo />,
+  'tv movie': <PiTelevisionSimple />,
+  thriller: <GiHalfDead />,
+  war: <GiAxeSword />,
+  western: <GiCactus />,
+};
 export async function fetchFromAPI(url) {
   try {
     const data = await fetch(`${baseURL + url}&api_key=${API_KEY}`);

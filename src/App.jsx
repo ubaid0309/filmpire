@@ -12,7 +12,7 @@ function App() {
       <Navbar />
       <main className="flex gap-4">
         <Sidebar />
-        <div className="w-[100%] bg-black my-[10%]">
+        <div className="w-[100%] bg-black py-[8%]">
           <Routes>
             <Route path="/" element={<Movies />} />
             <Route path="/movie/:id" element={<MovieInfo />} />
