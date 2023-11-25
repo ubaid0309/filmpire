@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { categories, fetchFromAPI, generateIcons, options } from '../utils/constant';
+import { categories, generateIcons } from '../utils/constant';
 import Loading from './Loading';
 import Logo from '../assets/logo.png';
+import { useGetGenresQuery } from '../services/TMDB';
+import { selectGenreIdOrCategoryName } from '../redux/slice.js/genreOrCategorySlice';
 
 function Sidebar() {
-  const [genresCategories, setGenresgenresCategories] = useState([]);
+  const { genreIdOrCategoryName } = useSelector((state) => state.genreOrCategory);
+  const { data } = useGetGenresQuery();
   const isSidebarVisible = useSelector((state) => state.sidebar.isVisible);
-  useEffect(() => {
-    fetchFromAPI('genre/movie/list?language=en', options).then(
-      (res) => setGenresgenresCategories(res.genres),
-    );
-  }, []);
+  const dispatch = useDispatch();
 
-  if (!genresCategories) return <Loading />;
+  if (!data) return null;
 
   return (
     <div
@@ -32,6 +31,7 @@ function Sidebar() {
               type="button"
               key={category.value}
               className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md"
+              onClick={() => dispatch(selectGenreIdOrCategoryName(category.value))}
             >
               <span>{category.icon}</span>
               <span>{category?.name}</span>
@@ -41,11 +41,12 @@ function Sidebar() {
 
         <div className="generes flex flex-col gap-4 text-xl p-4">
           <span className="text-2xl font-semibold">Genres</span>
-          {genresCategories.map((gen, index) => (
+          {data?.genres.map((gen, index) => (
             <button
               type="button"
               key={gen?.id}
               className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md"
+              onClick={() => dispatch(selectGenreIdOrCategoryName(gen?.id))}
             >
               <span>{generateIcons[index]?.icon}</span>
               <span>{gen?.name}</span>

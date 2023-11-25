@@ -6,10 +6,16 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 import { toggleSidebar } from '../redux/slice.js/sideBarSlice';
+import { searchQuery } from '../redux/slice.js/genreOrCategorySlice';
 
 function Navbar() {
   const [searchValue, setSearchValue] = useState('');
   const dispatch = useDispatch();
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    dispatch(searchQuery(searchValue));
+  };
   return (
     <div className="navbar fixed bg-black w-full text-white flex justify-between items-center px-4 py-4">
 
@@ -21,13 +27,16 @@ function Navbar() {
         <span>
           <IoSearchOutline className="text-lg" />
         </span>
-        <input
-          type="text"
-          placeholder="Search for movies"
-          className="outline-none bg-black text-white border-none  md:w-full"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
+        <form onSubmit={submitHandler}>
+          <input
+            type="text"
+            placeholder="Search for movies"
+            className="outline-none bg-black text-white border-none  md:w-full"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+        </form>
+
       </div>
 
       <div>
