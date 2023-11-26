@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
-import { useGetMovieQuery } from '../services/TMDB';
+import { useGetActorsQuery, useGetMovieQuery } from '../services/TMDB';
 import Loading from './Loading';
 import { generateIcons } from '../utils/constant';
 import { selectGenreIdOrCategoryName } from '../redux/slice.js/genreOrCategorySlice';
+import ActorCard from './ActorCard';
 
 function MovieInfo() {
   const { id: movieId } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(movieId);
+  const data2 = useGetActorsQuery(movieId);
+  console.log(data2);
   const dispatch = useDispatch();
-  console.log(data);
 
   if (isFetching) {
     return <Loading />;
@@ -27,12 +29,12 @@ function MovieInfo() {
       </div>
 
       <div className="movie-info w-[90%]">
-        <div className="movie-content flex flex-col text-xl gap-2">
-          <p className="movie-title text-3xl">
+        <div className="movie-content flex flex-col max-w-2xl mx-auto text-xl gap-2">
+          <p className="movie-title text-3xl text-center">
             {data?.original_title} ({data?.release_date.split('-')[0]})
           </p>
 
-          <p>{data?.tagline}</p>
+          <p className="text-center">{data?.tagline}</p>
 
           <div className="flex justify-between flex-wrap">
             <div className="flex gap-1">
@@ -65,7 +67,7 @@ function MovieInfo() {
             </div>
           </div>
 
-          <div className="flex gap-2 justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 justify-between">
             {data?.genres.map((genre, index) => (
               <Link to="/">
                 <button
@@ -80,6 +82,21 @@ function MovieInfo() {
               </Link>
 
             ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-3xl">Overview</p>
+
+          <p>
+            {data?.overview}
+          </p>
+
+          <p>
+            Top cast
+          </p>
+
+          <div className="flex overflow-hidden">
+            {data2?.data?.cast.map((actor) => <ActorCard actor={actor} />)}
           </div>
         </div>
       </div>
