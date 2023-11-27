@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
+import { IoIosStar, IoIosStarOutline, IoMdArrowRoundBack } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
-import { useGetActorsQuery, useGetMovieQuery } from '../services/TMDB';
+import { CiGlobe } from 'react-icons/ci';
+import { MdOutlineMovieCreation, MdLocalMovies } from 'react-icons/md';
+import { FaHeart } from 'react-icons/fa6';
+import { useGetMovieQuery } from '../services/TMDB';
 import Loading from './Loading';
 import { generateIcons } from '../utils/constant';
 import { selectGenreIdOrCategoryName } from '../redux/slice.js/genreOrCategorySlice';
-import ActorCard from './ActorCard';
+
+import MovieActor from './MovieActor';
 
 function MovieInfo() {
   const { id: movieId } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(movieId);
-  const data2 = useGetActorsQuery(movieId);
-  console.log(data2);
+  console.log(data);
   const dispatch = useDispatch();
 
   if (isFetching) {
     return <Loading />;
   }
+
+  if (error) { return <div className="text-3xl text-red-600"> Oops {error.message} !</div>; }
+
   return (
     <div className="movie-details flex flex-col lg:flex-row gap-4 justify-center">
       <div className="movie-card w-[40%] mx-auto">
@@ -68,35 +74,40 @@ function MovieInfo() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 justify-between">
-            {data?.genres.map((genre, index) => (
+            {data?.genres.map((genre) => (
               <Link to="/">
                 <button
                   className="flex text-xl items-center gap-1"
                   type="button"
-                  key={genre.id}
+                  key={genre?.id}
                   onClick={() => dispatch(selectGenreIdOrCategoryName(genre?.id))}
                 >
                   <span>{generateIcons[genre?.name.toLowerCase()]}</span>
                   <span>{genre.name}</span>
                 </button>
               </Link>
-
             ))}
           </div>
         </div>
+
         <div>
           <p className="text-3xl">Overview</p>
 
-          <p>
-            {data?.overview}
-          </p>
+          <p>{data?.overview}</p>
+        </div>
 
-          <p>
-            Top cast
-          </p>
+        <MovieActor movieId={movieId} />
 
-          <div className="flex overflow-hidden">
-            {data2?.data?.cast.map((actor) => <ActorCard actor={actor} />)}
+        <div className="movie-info-buttons w-full flex flex-col md:flex-row justify-between items-center md:w-[80%] mx-auto text-blue-400 ">
+          <div className=" flex border border-blue-400 p-2 rounded-md">
+            <Link to={data?.homepage}><button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">WEBSITE <CiGlobe /></button></Link>
+            <Link to={`https://www.imdb.com/title/${data?.imdb_id}`}><button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">IMDB <MdOutlineMovieCreation /></button></Link>
+            <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md">TRAILER <MdLocalMovies /></button>
+          </div>
+          <div className=" flex border border-blue-400 p-2 rounded-md">
+            <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md  ">LIKE <FaHeart className="text-white" /></button>
+            <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">WATCHLIST +1</button>
+            <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">BACK <IoMdArrowRoundBack /></button>
           </div>
         </div>
       </div>
