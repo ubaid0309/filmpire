@@ -14,8 +14,6 @@ function Sidebar() {
   const isSidebarVisible = useSelector((state) => state.sidebar.isVisible);
   const dispatch = useDispatch();
 
-  if (!data) return null;
-
   return (
     <div
       className={`w-[100%] md:w-[40%]  lg:w-[25%] xl:w-[15%] overflow-scroll pt-[16%] md:pt-[14%] lg:pt-[12%] xl:pt-[5%] ${
@@ -31,30 +29,34 @@ function Sidebar() {
         <div className="categories border-y border-gray-700 flex flex-col gap-4 text-xl  p-4">
           <span className="text-2xl font-semibold">Categories</span>
           {categories.map((category) => (
-            <button
-              type="button"
-              key={category.value}
-              className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
-              onClick={() => dispatch(selectGenreIdOrCategoryName(category.value))}
-            >
-              <span>{category.icon}</span>
-              <span>{category?.name}</span>
-            </button>
+            <Link to="/">
+              <button
+                type="button"
+                key={category.value}
+                className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
+                onClick={() => dispatch(selectGenreIdOrCategoryName(category.value))}
+              >
+                <span>{category.icon}</span>
+                <span>{category?.name}</span>
+              </button>
+            </Link>
           ))}
         </div>
 
         <div className="generes flex flex-col gap-4 text-xl p-4">
           <span className="text-2xl font-semibold">Genres</span>
           {data?.genres.map((gen) => (
-            <button
-              type="button"
-              key={gen?.id}
-              className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
-              onClick={() => dispatch(selectGenreIdOrCategoryName(gen?.id))}
-            >
-              <span>{generateIcons[gen?.name.toLowerCase()]}</span>
-              <span>{gen?.name}</span>
-            </button>
+            <Link to="/">
+              <button
+                type="button"
+                key={gen?.id}
+                className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
+                onClick={() => dispatch(selectGenreIdOrCategoryName(gen?.id))}
+              >
+                <span>{generateIcons[gen?.name.toLowerCase()]}</span>
+                <span>{gen?.name}</span>
+              </button>
+            </Link>
           ))}
         </div>
       </div>
