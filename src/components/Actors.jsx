@@ -12,7 +12,7 @@ function Actors() {
 
   return (
     <div>
-      <div className="flex flex-col   lg:flex-row gap-6 p-4  ">
+      <div className="flex flex-col  lg:flex-row gap-6 p-4  ">
         <div className="actor-image w-[100%] lg:w-[40%]  ">
           <img className=" w-[70%] lg:w-[100%] rounded-xl shadow-xl justify-center items-center" src={`https://image.tmdb.org/t/p/w500/${data?.profile_path}`} alt="actor" />
         </div>
@@ -23,7 +23,7 @@ function Actors() {
           <p className="actor-date-of-birth text-2xl">Born : {data?.birthday}</p>
 
           <p className="about-actor text-justify text-sm">{data?.biography}</p>
-          <div className="flex justify-around">
+          <div className="flex flex-col md:flex-row md:justify-around mt-2 items-center gap-4">
             <Link to={`https://www.imdb.com/name/${data?.imdb_id}`}>
               <button type="button" className="text-xl px-1 py-2 flex items-center gap-1 p-1 bg-blue-700 hover:bg-slate-700 transition-all rounded-md ">IMDB <MdOutlineMovieCreation /></button>
             </Link>

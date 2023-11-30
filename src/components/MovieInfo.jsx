@@ -9,7 +9,6 @@ import { useGetMovieQuery } from '../services/TMDB';
 import Loading from './Loading';
 import { generateIcons } from '../utils/constant';
 import { selectGenreIdOrCategoryName } from '../redux/slice.js/genreOrCategorySlice';
-
 import MovieActor from './MovieActor';
 import MovieRecommendations from './MovieRecommendations';
 
@@ -43,7 +42,7 @@ function MovieInfo() {
 
             <p className="text-center">{data?.tagline}</p>
 
-            <div className="flex justify-between flex-wrap">
+            <div className="flex justify-center gap-12 flex-wrap">
               <div className="flex gap-1">
                 {Array(Math.round(parseInt(data?.vote_average / 2, 10)))
                   .fill(0)
@@ -76,11 +75,10 @@ function MovieInfo() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 justify-between">
               {data?.genres.map((genre) => (
-                <Link to="/">
+                <Link to="/" key={genre?.id}>
                   <button
                     className="flex text-xl items-center gap-1"
                     type="button"
-                    key={genre?.id}
                     onClick={() => dispatch(selectGenreIdOrCategoryName(genre?.id))}
                   >
                     <span>{generateIcons[genre?.name.toLowerCase()]}</span>
@@ -99,15 +97,15 @@ function MovieInfo() {
 
           <MovieActor movieId={movieId} />
 
-          <div className="movie-info-buttons w-full flex flex-col md:flex-row justify-between items-center md:w-[80%] mx-auto text-blue-400 ">
-            <div className=" flex border border-blue-400 p-2 rounded-md">
+          <div className="movie-info-buttons w-full flex flex-col md:flex-row justify-between items-center md:w-[80%] mx-auto text-blue-400 gap-4">
+            <div className=" flex flex-col md:flex-row border border-blue-400 p-2 rounded-md">
               <Link to={data?.homepage}><button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">WEBSITE <CiGlobe /></button></Link>
               <Link to={`https://www.imdb.com/title/${data?.imdb_id}`}><button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">IMDB <MdOutlineMovieCreation /></button></Link>
               <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md">TRAILER <MdLocalMovies /></button>
             </div>
-            <div className=" flex border border-blue-400 p-2 rounded-md">
-              <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md  ">LIKE <FaHeart className="text-slate-700" /></button>
-              <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">WATCHLIST +1</button>
+            <div className=" flex flex-col md:flex-row border border-blue-400 p-2 rounded-md">
+              <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md  ">LIKE <FaHeart className="text-blue-600" /></button>
+              <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">WATCHLIST <span>+1</span></button>
               <button type="button" className="text-xl flex items-center gap-1 p-1 hover:bg-slate-700 transition-all rounded-md ">BACK <IoMdArrowRoundBack /></button>
             </div>
           </div>

@@ -29,10 +29,9 @@ function Sidebar() {
         <div className="categories border-y border-gray-700 flex flex-col gap-4 text-xl  p-4">
           <span className="text-2xl font-semibold">Categories</span>
           {categories.map((category) => (
-            <Link to="/">
+            <Link to="/" key={category.value}>
               <button
                 type="button"
-                key={category.value}
                 className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
                 onClick={() => dispatch(selectGenreIdOrCategoryName(category.value))}
               >
@@ -46,10 +45,9 @@ function Sidebar() {
         <div className="generes flex flex-col gap-4 text-xl p-4">
           <span className="text-2xl font-semibold">Genres</span>
           {data?.genres.map((gen) => (
-            <Link to="/">
+            <Link to="/" key={gen?.id}>
               <button
                 type="button"
-                key={gen?.id}
                 className="flex items-center gap-3 hover:bg-[#252525] transition-all duration-200 p-2 rounded-md text-sm md:text-lg"
                 onClick={() => dispatch(selectGenreIdOrCategoryName(gen?.id))}
               >
